@@ -1,17 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Resume ATS
+
+A modern Resume ATS (Applicant Tracking System) application built with Next.js, React Hook Form, Tailwind CSS, Zustand, and more.
+
+## Tech Stack
+
+- **Framework**: Next.js 15+ with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Form Management**: React Hook Form
+- **HTTP Client**: Axios
+- **State Management**: Zustand
+- **Document Export**: html2pdf.js
+- **Build Tool**: npm
 
 ## Getting Started
 
-First, run the development server:
+### Installation
+
+First, install dependencies:
+
+```bash
+npm install
+```
+
+### Development
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
