@@ -3,7 +3,7 @@ import {create} from 'zustand';
 type User = {
   id: number;
   email: string;
-  plan: "FREE" | "PRO";
+  plan: string;
 };
 
 type State = {
@@ -15,5 +15,8 @@ type State = {
 export const useUserStore = create<State>(set => ({
   user: null,
   setUser: user => set({ user }),
-  logout: () => set({ user: null }),
+  logout: () => {
+    localStorage.removeItem("token");
+    set({ user: null });
+  },
 }));

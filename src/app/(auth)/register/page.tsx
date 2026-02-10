@@ -4,7 +4,7 @@ import { useState } from "react";
 import { api } from "@/src/services/api";
 import { useUserStore } from "@/src/store/userStore";   
 import { useRouter } from "next/navigation";
-import { set } from "react-hook-form";
+
 
 export default function Register() {
   const setUser = useUserStore(s => s.setUser);
@@ -13,20 +13,42 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState<{
+          email?: string;
+          password?: string;
+          global?: string;
+        }>({});
 
   async function handleRegister() {
-    try {
-        setLoading(true);
-        setError("");
-
-        const res = await api.post("/auth/register", { email, password });
+    setErrors({});
+    setLoading(true);
+    try {        
+        const res = await api.post("/auth/register", { 
+            email, 
+            password 
+        });
 
         localStorage.setItem("token", res.data.token);
+        
         setUser(res.data.user);
         router.push("/dashboard");
+    
     } catch (err: any) {
-        setError(err.response?.data?.message || "Erro ao registrar");
+
+        const backendErrors = err.response?.data?.errors;
+        const message = err.response?.data?.message;
+
+        if (backendErrors) {
+          // validações de campo (400)
+          setErrors(backendErrors);
+        } else if (message) {
+          // erro de negócio (401 / 404)
+          setErrors({ global: message });
+        } else {
+          // erro genérico
+          setErrors({ global: "Erro ao fazer login" });
+        }
+
     } finally {
         setLoading(false);
     }
@@ -41,8 +63,6 @@ export default function Register() {
                     Crie uma conta para começar a criar currículos otimizados para ATS.
                 </p>  
 
-            {error && <div className="mb-4 text-red-500">{error}</div>} 
-
                 <input
                     className="w-full border rounded px-3 py-2 mb-4"
                     type="email"
@@ -50,6 +70,11 @@ export default function Register() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
+                {errors.email && (
+                    <p className="text-red-500 text-sm mb-3">
+                        {errors.email}
+                    </p>
+                )}
 
                 <input
                     className="w-full border rounded px-3 py-2 mb-4"
@@ -58,7 +83,18 @@ export default function Register() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                
+                {errors.password && (
+                    <p className="text-red-500 text-sm mb-3">
+                        {errors.password}
+                    </p>
+                )}
+
+                {errors.global && (
+                    <div className="mb-4 text-red-500">
+                        {errors.global}
+                    </div>
+                )}
+                    
                 <button
                     onClick={handleRegister}
                     disabled={loading}
