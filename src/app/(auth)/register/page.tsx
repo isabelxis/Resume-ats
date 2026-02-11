@@ -21,8 +21,8 @@ export default function Register() {
 
   async function handleRegister() {
     setErrors({});
-    setLoading(true);
-    try {        
+    try {   
+        setLoading(true);     
         const res = await api.post("/auth/register", { 
             email, 
             password 

@@ -1,22 +1,33 @@
-import {create} from 'zustand';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-type User = {
+interface User {
   id: number;
   email: string;
+  name?: string;
   plan: string;
-};
+}
 
-type State = {
+interface UserState {
   user: User | null;
   setUser: (user: User) => void;
   logout: () => void;
-};
+}
 
-export const useUserStore = create<State>(set => ({
-  user: null,
-  setUser: user => set({ user }),
-  logout: () => {
-    localStorage.removeItem("token");
-    set({ user: null });
-  },
-}));
+export const useUserStore = create<UserState>()(
+  persist(
+    (set) => ({
+      user: null,
+
+      setUser: (user) => set({ user }),
+
+      logout: () => {
+        localStorage.removeItem("token"); // remove JWT
+        set({ user: null });
+      },
+    }),
+    {
+      name: "user-storage",
+    }
+  )
+);
