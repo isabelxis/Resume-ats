@@ -20,8 +20,8 @@ export default function Login() {
 
   async function handleLogin() {
     setErrors({});
-    setLoading(true);
     try {
+      setLoading(true);
         const res = await api.post("/auth/login", { 
             email,
             password 
@@ -76,18 +76,18 @@ export default function Login() {
               value={password}
               onChange={e => setPassword(e.target.value)}
             />
-            {errors.password && (
-              <p className="text-red-500 text-sm mb-3">
-                {errors.password}
-              </p>
-            )}
-
+            
             {errors.global && (
               <div className="mb-4 text-red-500">
                 {errors.global}
               </div>
             )}
 
+            {errors.password && (
+              <p className="text-red-500 text-sm mb-3">
+                {errors.password}
+              </p>
+            )}
             <button
               onClick={handleLogin}
               disabled={loading}
@@ -100,6 +100,12 @@ export default function Login() {
                 Esqueceu a senha?{" "}
                 <a href="/forgot-password" className="text-blue-500">
                     Recuperar Senha
+                </a>
+            </p>
+            <p className="text-sm text-gray-500 mt-6 text-center">
+                Criar conta?{" "}
+                <a href="/register" className="text-blue-500">
+                    Criar Conta
                 </a>
             </p>
         </div>
