@@ -84,12 +84,12 @@ export default function ResetPassword() {
                 <button
                   onClick={handleReset}
                   disabled={loading}
-                  className="w-full bg-black text-white py-2 rounded disabled:opacity-50"
+                  className="w-full bg-secondary text-white py-2 rounded disabled:opacity-50"
                 >
                   
                   {loading ? "Redefinindo senha..." : "Redefinir senha"}
                 </button>
-                <p className="text-sm text-gray-500 mt-6 text-center">
+                <p className="text-sm text-primary mt-6 text-center">
                     Abri tela de login?{" "}
                     <a href="/login" className="text-blue-500">
                         Login

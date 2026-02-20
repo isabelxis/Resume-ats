@@ -59,7 +59,7 @@ export default function Register() {
             <div className="w-full max-w-md p-8 border rounded">
                 <h1 className="text-3xl font-bold mb-6">Criar Conta</h1>
 
-                <p className="text-gray-600 mb-4">
+                <p className="text-primary mb-4">
                     Crie uma conta para começar a criar currículos otimizados para ATS.
                 </p>  
 
@@ -98,11 +98,11 @@ export default function Register() {
                 <button
                     onClick={handleRegister}
                     disabled={loading}
-                    className="w-full bg-black text-white py-2 rounded">
+                    className="w-full bg-secondary text-primary py-2 rounded">
                         {loading ? "Criando..." : "Criar Conta"}
                     </button>
 
-                    <p className="text-sm text-gray-500 mt-6 text-center">
+                    <p className="text-sm text-primary mt-6 text-center">
                         Já tem uma conta?{" "}
                         <a href="/login" className="text-blue-500">
                             Entrar

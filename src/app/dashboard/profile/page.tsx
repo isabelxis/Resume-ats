@@ -47,13 +47,13 @@ export default function Profile() {
       <button
         onClick={handleSave}
         disabled={loading}
-        className="w-full bg-black text-white py-2 rounded"
+        className="w-full bg-secondary text-white py-2 rounded"
       >
         {loading ? "Salvando..." : "Salvar alterações"}
       </button>
 
       {message && (
-        <p className="mt-4 text-sm text-gray-600">
+        <p className="mt-4 text-sm text-primary">
           {message}
         </p>
       )}

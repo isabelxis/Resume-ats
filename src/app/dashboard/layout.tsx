@@ -22,12 +22,6 @@ export default function DashboardLayout({ children }: Props) {
 
       {/* SIDEBAR */}
       <aside className="w-64 bg-white border-r px-6 py-8 hidden md:block">
-        <div className="mb-12">
-          <h2 className="text-lg font-semibold tracking-tight">
-            ResumeATS
-          </h2>
-        </div>
-
         <nav className="space-y-4 text-sm">
           <a href="/dashboard" className="block font-medium text-black">
             Dashboard
@@ -52,24 +46,6 @@ export default function DashboardLayout({ children }: Props) {
 
       {/* MAIN AREA */}
       <div className="flex-1 flex flex-col">
-
-        {/* TOPBAR */}
-        <header className="bg-white border-b px-8 py-4 flex justify-end items-center">
-            <div className="flex items-center gap-4 text-sm">
-                <span className="text-gray-500">
-                    {user?.email}
-                </span>
-
-                <div className="h-4 w-px bg-gray-300" />
-
-                <button
-                    onClick={handleLogout}
-                    className="hover:text-black text-gray-600 transition"
-                >
-                    Sair
-                </button>
-            </div>
-        </header>
 
         {/* CONTENT */}
         <main className="p-8">

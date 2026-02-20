@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { api } from "@/src/services/api";
-import { useUserStore } from "@/src/store/userStore";
+import { api } from "@/src/lib/axios";
+import { useAuthStore } from "@/src/store/authStore";
 import { useRouter } from "next/navigation";  
 
 export default function Login() {
   const router = useRouter();
-  const setUser = useUserStore(s => s.setUser);
+  const { checkAuth } = useAuthStore();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,17 +20,23 @@ export default function Login() {
 
   async function handleLogin() {
     setErrors({});
+    setLoading(true);
     try {
-      setLoading(true);
+
         const res = await api.post("/auth/login", { 
             email,
             password 
         });
 
-        localStorage.setItem("token", res.data.token);
+        useAuthStore.getState().setAuth(
+          res.data.user,
+          res.data.accessToken
+        );
 
-        setUser(res.data.user);
+        //await checkAuth();
+
         router.push("/dashboard");
+        router.refresh();
 
     } catch (err: any) {
 
@@ -56,53 +62,62 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center">
         <div className="w-full max-w-md p-8 border rounded">
             <h2 className="text-2xl font-bold mb-6">Entrar</h2>
-
-            <input
-              className="w-full border rounded px-3 py-2 mb-4"
-              placeholder="Email"
-              value ={email}
-              onChange={e => setEmail(e.target.value)}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm mb-3">
-                {errors.email}
-              </p>
-            )}
-
-            <input
-              className="w-full border rounded px-3 py-2 mb-4"
-              type="password"
-              placeholder="Senha"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-            
-            {errors.global && (
-              <div className="mb-4 text-red-500">
-                {errors.global}
-              </div>
-            )}
-
-            {errors.password && (
-              <p className="text-red-500 text-sm mb-3">
-                {errors.password}
-              </p>
-            )}
-            <button
-              onClick={handleLogin}
-              disabled={loading}
-              className="mt-6 w-full bg-black text-white py-2 rounded disabled:opacity-50"
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleLogin();
+              }}
             >
-              {loading ? "Entrando..." : "Entrar"}
-            </button>
+              <input
+                type="email"
+                className="w-full border rounded px-3 py-2 mb-4"
+                placeholder="Email"
+                value ={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm mb-3">
+                  {errors.email}
+                </p>
+              )}
 
-            <p className="text-sm text-gray-500 mt-6 text-center">
+              <input
+                type="password"
+                className="w-full border rounded px-3 py-2 mb-4"
+                placeholder="Senha"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+              />
+
+              {errors.password && (
+                <p className="text-red-500 text-sm mb-3">
+                  {errors.password}
+                </p>
+              )}
+
+              {errors.global && (
+                <div className="mb-4 text-red-500">
+                  {errors.global}
+                </div>
+              )}
+              <button
+                type="submit"
+                disabled={loading}
+                className="mt-6 w-full bg-secondary text-primary py-2 rounded disabled:opacity-50"
+              >
+                {loading ? "Entrando..." : "Entrar"}
+              </button>
+            </form>
+            
+            <p className="text-sm text-primary mt-6 text-center">
                 Esqueceu a senha?{" "}
                 <a href="/forgot-password" className="text-blue-500">
                     Recuperar Senha
                 </a>
             </p>
-            <p className="text-sm text-gray-500 mt-6 text-center">
+            <p className="text-sm text-primary mt-6 text-center">
                 Criar conta?{" "}
                 <a href="/register" className="text-blue-500">
                     Criar Conta

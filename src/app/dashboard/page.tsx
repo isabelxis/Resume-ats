@@ -1,9 +1,9 @@
 "use client";
 
-import { useUserStore } from "@/src/store/userStore";
+import { useAuthStore } from "@/src/store/authStore";
 
 export default function DashboardPage() {
-  const user = useUserStore((s) => s.user);
+  const user = useAuthStore((s) => s.user);
 
   return (
     <>
@@ -12,7 +12,7 @@ export default function DashboardPage() {
           Olá {user?.name || ""}
         </h1>
 
-        <p className="text-gray-600 mt-2">
+        <p className="text-primary mt-2">
           Gerencie seus currículos e acompanhe seu plano.
         </p>
       </div>
@@ -20,7 +20,7 @@ export default function DashboardPage() {
       <div className="grid md:grid-cols-3 gap-6">
 
         <div className="bg-white border rounded-lg p-6">
-          <p className="text-sm text-gray-500 mb-2">
+          <p className="text-sm text-primary mb-2">
             Plano atual
           </p>
           <p className="text-xl font-semibold">
@@ -29,7 +29,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="bg-white border rounded-lg p-6">
-          <p className="text-sm text-gray-500 mb-2">
+          <p className="text-sm text-primary mb-2">
             Currículos criados
           </p>
           <p className="text-xl font-semibold">
@@ -39,17 +39,17 @@ export default function DashboardPage() {
 
         <div className="bg-white border rounded-lg p-6 flex flex-col justify-between">
           <div>
-            <p className="text-sm text-gray-500 mb-2">
+            <p className="text-sm text-primary mb-2">
               Novo currículo
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-primary">
               Inicie um currículo otimizado para ATS.
             </p>
           </div>
 
           <a
             href="/resume/new"
-            className="mt-6 bg-black text-white text-sm px-4 py-2 rounded-md text-center"
+            className="mt-6 bg-secondary text-white text-sm px-4 py-2 rounded-md text-center"
           >
             Criar agora
           </a>

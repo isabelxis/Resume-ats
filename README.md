@@ -57,7 +57,7 @@ src/
 
 1. Clone o repositório:
 ```bash
-git clone <https://github.com/isabelxis/resume-ats.git>
+git clone https://github.com/isabelxis/resume-ats.git
 cd resume-ats
 ```
 

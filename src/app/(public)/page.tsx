@@ -1,28 +1,8 @@
+"use client";
+
 export default function Home() {
   return (
-    <main className="bg-white text-gray-900">
-
-      {/* NAVBAR */}
-      <header className="w-full border-b">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <span className="text-lg font-semibold tracking-tight">
-            ResumeATS
-          </span>
-
-          <div className="space-x-6 text-sm">
-            <a href="/login" className="text-gray-600 hover:text-black">
-              Entrar
-            </a>
-            <a
-              href="/register"
-              className="bg-black text-white px-4 py-2 rounded-md"
-            >
-              Criar conta
-            </a>
-          </div>
-        </div>
-      </header>
-
+    <main className="bg-white">
 
       {/* HERO */}
       <section className="max-w-5xl mx-auto px-6 py-32 text-center">
@@ -30,7 +10,7 @@ export default function Home() {
           Currículos que passam no ATS
         </h1>
 
-        <p className="mt-6 text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+        <p className="mt-6 text-lg max-w-2xl mx-auto leading-relaxed">
           Crie um currículo estruturado para sistemas de triagem automática
           e aumente suas chances reais de conseguir entrevistas.
         </p>
@@ -38,7 +18,7 @@ export default function Home() {
         <div className="mt-10">
           <a
             href="/register"
-            className="bg-black text-white px-8 py-3 rounded-md text-lg hover:bg-gray-800 transition"
+            className="bg-secondary text-primary px-8 py-3 rounded-md text-lg hover:bg-hover transition"
           >
             Começar gratuitamente
           </a>
@@ -54,7 +34,7 @@ export default function Home() {
             Seu currículo pode estar sendo descartado
           </h2>
 
-          <p className="mt-6 text-gray-600 leading-relaxed">
+          <p className="mt-6 leading-relaxed">
             A maioria das empresas utiliza sistemas ATS (Applicant Tracking System)
             para filtrar candidatos automaticamente.
             Se o formato não estiver adequado, seu currículo pode não ser analisado por um recrutador.
@@ -72,7 +52,7 @@ export default function Home() {
             <h3 className="text-lg font-semibold mb-4">
               Estrutura compatível com ATS
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed">
               Formatação padronizada para garantir leitura correta pelos sistemas automatizados.
             </p>
           </div>
@@ -81,7 +61,7 @@ export default function Home() {
             <h3 className="text-lg font-semibold mb-4">
               Otimização por palavras-chave
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed">
               Inclusão estratégica de termos relevantes para aumentar a compatibilidade com a vaga.
             </p>
           </div>
@@ -90,7 +70,7 @@ export default function Home() {
             <h3 className="text-lg font-semibold mb-4">
               Design profissional e objetivo
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed">
               Layout limpo, claro e focado em destacar suas competências.
             </p>
           </div>
@@ -105,14 +85,14 @@ export default function Home() {
           Aumente suas chances de contratação
         </h2>
 
-        <p className="mt-6 text-gray-600">
+        <p className="mt-6 ">
           Crie agora seu currículo otimizado para ATS.
         </p>
 
         <div className="mt-10">
           <a
             href="/register"
-            className="bg-black text-white px-8 py-3 rounded-md text-lg"
+            className="bg-secondary text-primary hover:bg-hover px-8 py-3 rounded-md text-lg"
           >
             Criar meu currículo
           </a>
