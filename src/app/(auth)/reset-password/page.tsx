@@ -3,6 +3,12 @@
 import { useState } from "react";
 import { api } from "@/src/lib/axios";  
 import { useSearchParams } from "next/navigation"; 
+import axios from "axios";
+
+type AuthErrors = {
+  newPassword?: string;
+  global?: string;
+};
 
 export default function ResetPassword() {
     const searchParams = useSearchParams();
@@ -12,10 +18,7 @@ export default function ResetPassword() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState<{
-        newPassword?: string;
-        global?: string;
-        }>({});
+    const [errors, setErrors] = useState<AuthErrors>({});
 
     async function handleReset() {
         setErrors({});
@@ -37,14 +40,14 @@ export default function ResetPassword() {
 
             if (backendErrors) {
             // validações de campo (400)
-            setErrors(backendErrors);
+                setErrors(backendErrors);
             //console.log(err.response);
             } else if (message) {
             // erro de negócio (401 / 404)
-            setErrors({ global: message });
+                setErrors({ global: message });
             } else {
             // erro genérico
-            setErrors({ global: "Erro ao redefinir senha" });
+                setErrors({ global: "Erro ao redefinir senha" });
             }
         } finally {
             setLoading(false);

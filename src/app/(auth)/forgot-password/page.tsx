@@ -3,15 +3,17 @@
 import { useState } from "react";
 import { api } from "@/src/lib/axios";
 
+type AuthErrors = {
+  email?: string;
+  global?: string;
+};
+
 export default function ForgotPassword() {
 
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{
-          email?: string;
-          global?: string;
-        }>({});
+  const [errors, setErrors] = useState<AuthErrors>({});
 
   async function handleSubmit() {
     setErrors({});
