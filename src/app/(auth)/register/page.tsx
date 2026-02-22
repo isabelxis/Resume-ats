@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { api } from "@/src/services/api";
-import { useUserStore } from "@/src/store/userStore";   
+import { api } from "@/src/lib/axios";
+import { useAuthStore } from "@/src/store/authStore";
 import { useRouter } from "next/navigation";
 
-
 export default function Register() {
-  const setUser = useUserStore(s => s.setUser);
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -19,20 +17,35 @@ export default function Register() {
           global?: string;
         }>({});
 
-  async function handleRegister() {
+    async function handleRegister() {
     setErrors({});
-    try {   
-        setLoading(true);     
-        const res = await api.post("/auth/register", { 
-            email, 
-            password 
+    try {
+        setLoading(true);
+        const res = await api.post("/auth/register", {
+            email,
+            password
         });
 
-        localStorage.setItem("token", res.data.token);
-        
-        setUser(res.data.user);
+        const accessToken = res.data?.accessToken ?? res.data?.token;
+        const rawUser = res.data?.user ?? res.data?.profile ?? res.data;
+
+        if (accessToken && rawUser?.id && rawUser?.email && rawUser?.plan) {
+          useAuthStore.getState().setAuth(
+            {
+              id: rawUser.id,
+              email: rawUser.email,
+              plan: rawUser.plan,
+            },
+            accessToken
+          );
+
+          await useAuthStore.getState().loadProfile();
+        } else {
+          await useAuthStore.getState().checkAuth();
+        }
+
         router.push("/dashboard");
-    
+
     } catch (err: any) {
 
         const backendErrors = err.response?.data?.errors;
@@ -61,7 +74,7 @@ export default function Register() {
 
                 <p className="text-primary mb-4">
                     Crie uma conta para começar a criar currículos otimizados para ATS.
-                </p>  
+                </p>
 
                 <input
                     className="w-full border rounded px-3 py-2 mb-4"
@@ -94,7 +107,7 @@ export default function Register() {
                         {errors.global}
                     </div>
                 )}
-                    
+
                 <button
                     onClick={handleRegister}
                     disabled={loading}
@@ -111,4 +124,4 @@ export default function Register() {
             </div>
         </div>
     );
-}   
+}

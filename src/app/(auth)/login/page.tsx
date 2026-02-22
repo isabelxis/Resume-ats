@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 
 export default function Login() {
   const router = useRouter();
-  const { checkAuth } = useAuthStore();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +32,7 @@ export default function Login() {
           res.data.accessToken
         );
 
-        //await checkAuth();
+        await useAuthStore.getState().loadProfile();
 
         router.push("/dashboard");
         router.refresh();

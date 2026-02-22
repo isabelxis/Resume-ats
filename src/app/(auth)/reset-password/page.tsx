@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { api } from "@/src/services/api";  
+import { api } from "@/src/lib/axios";  
 import { useSearchParams } from "next/navigation"; 
 
 export default function ResetPassword() {

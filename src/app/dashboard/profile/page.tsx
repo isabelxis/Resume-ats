@@ -1,28 +1,43 @@
 "use client";
 
-import { useState } from "react";
-import { api } from "@/src/services/api";
-import { useUserStore } from "@/src/store/userStore";
+import { useEffect, useState } from "react";
+import { api } from "@/src/lib/axios";
+import { useAuthStore } from "@/src/store/authStore";
 
 export default function Profile() {
-  const user = useUserStore(s => s.user);
-  const setUser = useUserStore(s => s.setUser);
+  const profile = useAuthStore(s => s.profile);
+  const accessToken = useAuthStore(s => s.accessToken);
 
-  const [name, setName] = useState(user?.name || "");
+  const updateProfileInStore = useAuthStore(s => s.updateProfileInStore);
+
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (profile) {
+      setName(profile.name || "");
+    }
+  }, [profile]);
 
   async function handleSave() {
     setLoading(true);
     setMessage("");
 
     try {
-      const res = await api.put("/users/me", { name });
+      const res = await api.put("/profile/me", { name },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
-      setUser(res.data);
+      updateProfileInStore(res.data);
+
       setMessage("Perfil atualizado com sucesso");
 
-    } catch (err: any) {
+    } catch (err) {
       setMessage("Erro ao atualizar perfil");
     } finally {
       setLoading(false);

@@ -1,6 +1,11 @@
 "use client";
 
+import { useAuthStore } from "@/src/store/authStore";
+
 export default function Home() {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const ctaHref = isAuthenticated ? "/dashboard" : "/register";
+
   return (
     <main className="bg-white">
 
@@ -17,7 +22,7 @@ export default function Home() {
 
         <div className="mt-10">
           <a
-            href="/register"
+            href={ctaHref}
             className="bg-secondary text-primary px-8 py-3 rounded-md text-lg hover:bg-hover transition"
           >
             Começar gratuitamente
@@ -91,7 +96,7 @@ export default function Home() {
 
         <div className="mt-10">
           <a
-            href="/register"
+            href={ctaHref}
             className="bg-secondary text-primary hover:bg-hover px-8 py-3 rounded-md text-lg"
           >
             Criar meu currículo

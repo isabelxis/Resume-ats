@@ -1,58 +1,109 @@
 import {create} from "zustand";
 import { api } from "@/src/lib/axios"
-
-interface User {
-  id: number;
-  email: string;
-  name?: string;
-  plan: string;
-}
+import type { AuthUser, Profile } from "./types/auth";
 
 interface AuthState {
-    user: User | null;
+    authUser: AuthUser | null;
+    profile: Profile | null;
     accessToken: string | null;
     isAuthenticated: boolean;
     isLoading: boolean;
-    setAuth: (user: User, token: string) => void;
+
+    setAuth: (user: AuthUser, token: string) => void;
+    updateProfileInStore: (profile: Profile) => void;
+    loadProfile: () => Promise<void>;
     checkAuth: () => Promise<void>;
     logout: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-    user: null,
+export const useAuthStore = create<AuthState>((set, get) => ({
+    authUser: null,
+    profile: null,
     accessToken: null,
     isAuthenticated: false,
     isLoading: true,
 
-    setAuth: (user, token) =>
+    setAuth: (user, token) => {
+
         set({
-            user,
+            authUser: user,
             accessToken: token,
             isAuthenticated: true,
             isLoading: false,
-        }),
+        });
+        
+    },
+
+    updateProfileInStore: (profile) =>
+        set({ profile }),
+    
+    loadProfile: async() => {
+        try{
+            const token = get().accessToken;
+
+            if(!token) return;
+
+            const res = await api.get("/profile/me", {
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            set({profile: res.data});            
+        } catch(error){
+            console.error("Erro ao carregar perfil", error);
+        }
+    },
 
     checkAuth: async () => {
         try{
 
         const refreshRes = await api.post("/auth/refresh")    
-        //const token = useAuthStore.getState().accessToken;
-
-        //if(!token) return;
-        const newAccessToken = refreshRes.data.accessToken;
         
+        const newAccessToken = refreshRes.data.accessToken;
+
         set({ accessToken: newAccessToken});
         
-        const userRes = await api.get("/profile/me");
+        const profileRes = await api.get("/profile/me", {
+            headers:{
+                Authorization: `Bearer ${newAccessToken}`,
+            },
+        });
+        
+        const profile = profileRes.data
 
-        set({ user: userRes.data, isAuthenticated: true, isLoading: false,});
+        console.log("Profile após refresh:", profile);
+
+        const authUser: AuthUser = {
+            id: profile.id,
+            email: profile.email,
+            plan: profile.plan,            
+        };
+
+        set({ authUser,
+            profile, 
+            isAuthenticated: true, 
+            isLoading: false,
+        });
+        
         } catch {
-            set({ user: null, accessToken: null, isAuthenticated: false, isLoading: false,});
+            set({ authUser: null, 
+                profile: null,
+                accessToken: null, 
+                isAuthenticated: false, 
+                isLoading: false,
+            });
         }
+    
     },
 
     logout: async() => {
-        await api.post("/logout");
-        set({ user: null, accessToken: null, isAuthenticated: false});
+        await api.post("/auth/logout");
+
+        set({ authUser: null, 
+            profile: null,
+            accessToken: null,
+            isAuthenticated: false
+        });
     },
 }));

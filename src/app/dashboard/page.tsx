@@ -3,13 +3,13 @@
 import { useAuthStore } from "@/src/store/authStore";
 
 export default function DashboardPage() {
-  const user = useAuthStore((s) => s.user);
+  const profile = useAuthStore((s) => s.profile);
 
   return (
     <>
       <div className="mb-10">
         <h1 className="text-2xl font-semibold tracking-tight">
-          Olá {user?.name || ""}
+          Olá {profile?.name || ""}
         </h1>
 
         <p className="text-primary mt-2">
@@ -24,7 +24,7 @@ export default function DashboardPage() {
             Plano atual
           </p>
           <p className="text-xl font-semibold">
-            {user?.plan}
+            {profile?.plan}
           </p>
         </div>
 

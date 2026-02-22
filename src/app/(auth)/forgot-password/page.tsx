@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { api } from "@/src/services/api";
+import { api } from "@/src/lib/axios";
 
 export default function ForgotPassword() {
 

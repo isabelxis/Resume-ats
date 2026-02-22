@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { useUserStore } from "@/src/store/userStore";
+import { useAuthStore } from "@/src/store/authStore";
 
 interface Props {
   children: ReactNode;
@@ -10,7 +10,7 @@ interface Props {
 
 export default function DashboardLayout({ children }: Props) {
   const router = useRouter();
-  const {user, logout} = useUserStore();
+  const {authUser, logout} = useAuthStore();
 
   function handleLogout() {
     logout();
