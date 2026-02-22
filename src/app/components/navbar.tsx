@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/src/store/authStore";
@@ -9,6 +10,8 @@ import { useAuthStore } from "@/src/store/authStore";
 export default function Navbar() {
     const router = useRouter();
     const pathname = usePathname();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
     const authUser = useAuthStore((s) => s.authUser);
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
     const isLoading = useAuthStore((s) => s.isLoading);
@@ -16,17 +19,23 @@ export default function Navbar() {
 
     if (isLoading) return null;
 
+    const isDashboardRoute = pathname.startsWith("/dashboard");
     const showLogin = pathname !== "/login";
     const showRegister = pathname !== "/register";
     const showNothing = pathname == "/reset-password"
 
     async function handleLogout() {
         await logout();
+        setIsMobileMenuOpen(false);
         router.push("/");
     }
 
+    function closeMobileMenu() {
+        setIsMobileMenuOpen(false);
+    }
+
     return (
-        <header className="w-full border-b">
+        <header className="w-full border-b relative z-50 bg-white">
             <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
                 <div className="flex items-center gap-0.5 cursor-pointer">
                     <Link href="/">
@@ -35,36 +44,84 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                <div className="flex items-center gap-6 text-sm">
-                    {isAuthenticated && authUser ? (
-                        <>
+                {isAuthenticated && authUser ? (
+                    <>
+                        {isDashboardRoute && (
+                            <button
+                                type="button"
+                                onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                                className="md:hidden h-10 w-10 border rounded-md flex items-center justify-center"
+                                aria-label="Abrir menu"
+                                aria-expanded={isMobileMenuOpen}
+                            >
+                                <span className="block h-0.5 w-5 bg-gray-800" />
+                                <span className="block h-0.5 w-5 bg-gray-800 mt-1" />
+                                <span className="block h-0.5 w-5 bg-gray-800 mt-1" />
+                            </button>
+                        )}
+
+                        <div className="hidden md:flex items-center gap-6 text-sm">
                             <span className="text-primary">{authUser?.email}</span>
                             <div className="h-4 w-px bg-gray-300" />
 
                             <button onClick={handleLogout} className="hover:bg-hover text-primary transition">
                                 Sair
                             </button>
-                        </>
-                    ) : (
-                        <>
-                            {showLogin && !showNothing && (
-                                <Link href="/login" className="hover:text-black">
-                                    Entrar
-                                </Link>
-                            )}
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex items-center gap-6 text-sm">
+                        {showLogin && !showNothing && (
+                            <Link href="/login" className="hover:text-primary">
+                                Entrar
+                            </Link>
+                        )}
 
                             {showRegister && !showNothing && (
-                                <Link
-                                    href="/register"
-                                    className="bg-secondary text-primary px-4 py-2 rounded-md hover:bg-hover transition"
-                                >
-                                    Criar conta
-                                </Link>
-                            )}
-                        </>
-                    )}
-                </div>
+                            <Link
+                                href="/register"
+                                className="bg-secondary text-primary px-4 py-2 rounded-md hover:bg-hover transition"
+                            >
+                                Criar conta
+                            </Link>
+                        )}
+                    </div>
+                )}
             </div>
+
+            {isAuthenticated && isDashboardRoute && isMobileMenuOpen && (
+                <>
+                    <button
+                        type="button"
+                        className="fixed inset-0 bg-black/40 md:hidden z-40"
+                        onClick={closeMobileMenu}
+                        aria-label="Fechar menu"
+                    />
+
+                    <aside className="fixed top-0 right-0 h-full w-64 bg-white border-r px-6 py-8 md:hidden z-50">
+                        <nav className="space-y-4 text-sm">
+                            <Link href="/dashboard" className="block font-medium text-primary" onClick={closeMobileMenu}>
+                                Dashboard
+                            </Link>
+
+                            <Link href="/dashboard/resumes" className="block text-primary hover:text-hover" onClick={closeMobileMenu}>
+                                Meus curriculos
+                            </Link>
+
+                            <Link href="/dashboard/profile" className="block text-primary hover:text-hover" onClick={closeMobileMenu}>
+                                Perfil
+                            </Link>
+
+                            <button
+                                onClick={handleLogout}
+                                className="block text-primary hover:text-hover text-left w-full"
+                            >
+                                Sair
+                            </button>
+                        </nav>
+                    </aside>
+                </>
+            )}
         </header>
     );
 }

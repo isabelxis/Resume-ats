@@ -49,7 +49,7 @@ export default function DashboardPage() {
 
           <a
             href="/resume/new"
-            className="mt-6 bg-secondary text-white text-sm px-4 py-2 rounded-md text-center"
+            className="mt-6 bg-secondary text-primary text-sm px-4 py-2 rounded-md text-center"
           >
             Criar agora
           </a>

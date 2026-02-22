@@ -59,7 +59,7 @@ export default function ForgotPassword() {
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="w-full bg-secondary text-white py-2 rounded disabled:opacity-50"
+                  className="w-full bg-secondary text-primary py-2 rounded disabled:opacity-50"
                 >
                   {loading ? "Enviando instruções..." : "Enviar instruções"}
                 </button>

@@ -84,7 +84,7 @@ export default function ResetPassword() {
                 <button
                   onClick={handleReset}
                   disabled={loading}
-                  className="w-full bg-secondary text-white py-2 rounded disabled:opacity-50"
+                  className="w-full bg-secondary text-primary py-2 rounded disabled:opacity-50"
                 >
                   
                   {loading ? "Redefinindo senha..." : "Redefinir senha"}
