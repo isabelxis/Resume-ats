@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faFileCircleCheck, faBars,faX } from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/src/store/authStore";
 
 export default function Navbar() {
@@ -39,8 +39,8 @@ export default function Navbar() {
             <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
                 <div className="flex items-center gap-0.5 cursor-pointer">
                     <Link href="/">
-                        <FontAwesomeIcon icon={faFileCircleCheck} className="text-2xl" />
-                        <span className="font-semibold tracking-tight">ResumeATS</span>
+                        <FontAwesomeIcon icon={faFileCircleCheck} className="text-2xl text-primary hover:text-hover" />
+                        <span className="font-semibold tracking-tight text-primary">ResumeATS</span>
                     </Link>
                 </div>
 
@@ -50,13 +50,11 @@ export default function Navbar() {
                             <button
                                 type="button"
                                 onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-                                className="md:hidden h-10 w-10 border rounded-md flex items-center justify-center"
+                                className="md:hidden h-10 w-10 rounded-md flex items-center justify-center"
                                 aria-label="Abrir menu"
                                 aria-expanded={isMobileMenuOpen}
                             >
-                                <span className="block h-0.5 w-5 bg-gray-800" />
-                                <span className="block h-0.5 w-5 bg-gray-800 mt-1" />
-                                <span className="block h-0.5 w-5 bg-gray-800 mt-1" />
+                                <FontAwesomeIcon icon={faBars} className="text-2xl text-primary hover:text-hover" />
                             </button>
                         )}
 
@@ -72,7 +70,7 @@ export default function Navbar() {
                 ) : (
                     <div className="flex items-center gap-6 text-sm">
                         {showLogin && !showNothing && (
-                            <Link href="/login" className="hover:text-primary">
+                            <Link href="/login" className="hover:text-hover">
                                 Entrar
                             </Link>
                         )}
@@ -91,18 +89,21 @@ export default function Navbar() {
 
             {isAuthenticated && isDashboardRoute && isMobileMenuOpen && (
                 <>
-                    <button
-                        type="button"
-                        className="fixed inset-0 bg-black/40 md:hidden z-40"
-                        onClick={closeMobileMenu}
-                        aria-label="Fechar menu"
-                    />
 
                     <aside className="fixed top-0 right-0 h-full w-64 bg-white border-r px-6 py-8 md:hidden z-50">
                         <nav className="space-y-4 text-sm">
-                            <Link href="/dashboard" className="block font-medium text-primary" onClick={closeMobileMenu}>
-                                Dashboard
-                            </Link>
+                            <div className="flex justify-between items-center cursor-pointer">
+                                <Link href="/dashboard" className="block font-medium text-primary" onClick={closeMobileMenu}>
+                                    Dashboard
+                                </Link>
+                                <button
+                                    type="button"
+                                    onClick={closeMobileMenu}
+                                    aria-label="Fechar menu"
+                                >
+                                    <FontAwesomeIcon icon={faX} className="text-1xl text-primary hover:text-hover" />
+                                </button>
+                            </div>
 
                             <Link href="/dashboard/resumes" className="block text-primary hover:text-hover" onClick={closeMobileMenu}>
                                 Meus curriculos

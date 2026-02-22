@@ -62,7 +62,7 @@ export default function Profile() {
       <button
         onClick={handleSave}
         disabled={loading}
-        className="w-full bg-secondary text-white py-2 rounded"
+        className="w-full bg-secondary text-primary py-2 rounded"
       >
         {loading ? "Salvando..." : "Salvar alterações"}
       </button>
