@@ -1,158 +1,164 @@
 # Resume ATS
 
-Uma aplicação moderna de Resume ATS (Applicant Tracking System) construída com **Next.js 15+**, **Tailwind CSS**, **Zustand** e **Axios**. Esta aplicação oferece uma solução completa para gerenciamento de currículos com autenticação de usuários, gerenciamento de perfil e recursos de exportação de documentos.
+Aplicacao web em Next.js para autenticacao de usuarios e gerenciamento de perfil, com foco em fluxo de curriculo ATS.
 
-## 🎯 Funcionalidades
+## Visao geral
 
-- **Autenticação de Usuário**: Sistema de autenticação completo com login, registro, redefinição de senha e fluxos de recuperação de senha
-- **Dashboard do Usuário**: Dashboard personalizado para usuários autenticados
-- **Gerenciamento de Perfil**: Atualizar e gerenciar informações de perfil do usuário
-- **Gerenciamento de Estado**: Gerenciamento de estado global com o store Zustand
-- **Exportação de Documentos**: Converter currículos para PDF e formatos DOCX com html2pdf.js
-- **Design Responsivo**: Design responsivo mobile-first com Tailwind CSS
-- **Type Safe**: Suporte completo a TypeScript para segurança de tipo e melhor experiência do desenvolvedor
+O projeto atualmente entrega:
 
-## 📋 Stack de Tecnologias
+- Pagina publica com CTAs dinamicos (usuario logado vai para `/dashboard`, usuario nao logado vai para `/register`)
+- Fluxo de autenticacao completo
+  - login
+  - registro
+  - forgot password
+  - reset password
+- Dashboard com resumo de perfil
+- Edicao de perfil (nome, headline, telefone, localidade, LinkedIn, GitHub e portfolio)
+- Navegacao responsiva com menu mobile no navbar para rotas de dashboard
+- Estado global de autenticacao com Zustand
+- Integracao HTTP com Axios
 
-| Categoria | Tecnologia |
-|----------|------------|
-| **Framework** | Next.js 15+ (App Router) |
-| **Linguagem** | TypeScript |
-| **Estilização** | Tailwind CSS |
-| **Gerenciamento de Estado** | Zustand |
-| **Cliente HTTP** | Axios |
-| **Exportação de Documentos** | html2pdf.js |
-| **Ferramenta de Build** | npm |
+## Stack
 
-## 📁 Estrutura do Projeto
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- Zustand
+- Axios
+- Font Awesome
 
-```
-src/
-├── app/
-│   ├── (auth)/                 # Rotas de autenticação
-│   │   ├── login/
-│   │   ├── register/
-│   │   ├── forgot-password/
-│   │   └── reset-password/
-│   ├── (public)/               # Páginas públicas
-│   ├── dashboard/              # Dashboard protegido
-│   │   ├── page.tsx
-│   │   └── profile/
-│   ├── globals.css
-│   ├── layout.tsx
-├── services/
-│   └── api.ts                  # Cliente API com Axios
-├── store/
-│   └── userStore.ts            # Store de usuário com Zustand
-```
+## Requisitos
 
-## 🚀 Começando
+- Node.js 18+
+- npm
 
-### Pré-requisitos
+## Como rodar
 
-- Node.js 18+ 
-- npm ou yarn
+1. Instale dependencias:
 
-### Instalação
-
-1. Clone o repositório:
-```bash
-git clone https://github.com/isabelxis/resume-ats.git
-cd resume-ats
-```
-
-2. Instale as dependências:
 ```bash
 npm install
-npm install axios
-
 ```
 
-### Desenvolvimento
-
-Inicie o servidor de desenvolvimento:
+2. Rode em desenvolvimento:
 
 ```bash
 npm run dev
 ```
 
-Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver a aplicação.
+3. Acesse:
 
-### Scripts Disponíveis
+- Frontend: `http://localhost:3000`
 
-```bash
-# Servidor de desenvolvimento com hot reload
-npm run dev
-
-# Build para produção
-npm run build
-
-# Inicie o servidor de produção
-npm start
-
-# Execute ESLint para verificações de qualidade de código
-npm run lint
-```
-
-## 📝 Como Usar
-
-1. **Criar uma Conta**: Visite a página de registro para criar uma nova conta
-2. **Fazer Login**: Use suas credenciais para acessar o dashboard
-3. **Gerenciar Perfil**: Atualize suas informações de perfil na página de perfil
-4. **Exportar Currículo**: Converta e baixe seu currículo como PDF ou DOCX
-
-## 🔐 Fluxo de Autenticação
-
-A aplicação utiliza um sistema de autenticação estruturado com as seguintes rotas:
-- `/login` - Página de login do usuário
-- `/register` - Página de registro do usuário
-- `/forgot-password` - Recuperação de senha
-- `/reset-password` - Redefinição de senha com validação de token
-
-As rotas protegidas redirecionam usuários não autenticados para a página de login.
-
-## 🎨 Estilização
-
-O projeto usa **Tailwind CSS** para toda a estilização. Estilos personalizados podem ser adicionados aos estilos globais em `src/app/globals.css` ou usando classes Tailwind diretamente nos componentes.
-
-## 🔧 Diretrizes de Desenvolvimento
-
-- Use TypeScript para segurança de tipo
-- Siga as melhores práticas do React
-- Gerencie o estado global com Zustand
-- Use classes utilitárias do Tailwind CSS para estilização
-- Mantenha os componentes modulares e reutilizáveis
-
-## 🚀 Implantação
-
-A aplicação pode ser implantada no Vercel, Netlify ou qualquer plataforma de hospedagem Node.js.
-
-### Implantar no Vercel
-
-A forma mais fácil de implantar é usando o [Vercel Platform](https://vercel.com):
+## Scripts
 
 ```bash
-npm i -g vercel
-vercel
+npm run dev    # desenvolvimento
+npm run build  # build de producao
+npm run start  # sobe build de producao
+npm run lint   # analise estatica
 ```
 
-Para mais detalhes, confira a [documentação de implantação do Next.js](https://nextjs.org/docs/app/building-your-application/deploying).
+## Backend esperado
 
-## 📚 Saiba Mais
+O frontend usa API em:
 
-- [Documentação do Next.js](https://nextjs.org/docs)
-- [Documentação do Tailwind CSS](https://tailwindcss.com/docs)
-- [Documentação do Zustand](https://github.com/pmndrs/zustand)
-- [Documentação do Axios](https://axios-http.com/)
+- `http://localhost:8080/api`
 
-## 📄 Licença
+Configurado em `src/lib/axios.ts` com `withCredentials: true`.
 
-Este projeto é código aberto e disponibilizado sob a Licença MIT.
+Endpoints usados no frontend:
 
-## 🤝 Contribuindo
+- `POST /auth/login`
+- `POST /auth/register`
+- `POST /auth/refresh`
+- `POST /auth/logout`
+- `POST /auth/forgot-password`
+- `POST /auth/reset-password`
+- `GET /profile/me`
+- `PUT /profile/me`
 
-Contribuições são bem-vindas! Sinta-se à vontade para enviar problemas e solicitações de recursos.
+## Estrutura atual do projeto
 
----
+```text
+src/
+|-- app/
+|   |-- (auth)/
+|   |   |-- forgot-password/
+|   |   |   `-- page.tsx
+|   |   |-- login/
+|   |   |   `-- page.tsx
+|   |   |-- register/
+|   |   |   `-- page.tsx
+|   |   `-- reset-password/
+|   |       `-- page.tsx
+|   |-- (public)/
+|   |   `-- page.tsx
+|   |-- components/
+|   |   `-- navbar.tsx
+|   |-- dashboard/
+|   |   |-- profile/
+|   |   |   `-- page.tsx
+|   |   |-- layout.tsx
+|   |   `-- page.tsx
+|   |-- providers/
+|   |   `-- AuthInitializer.tsx
+|   |-- favicon.ico
+|   |-- globals.css
+|   `-- layout.tsx
+|-- lib/
+|   `-- axios.ts
+`-- store/
+    |-- types/
+    |   `-- auth.ts
+    |-- authStore.ts
+    `-- fontawesome.ts
+```
 
-**Bom codificando!** 🎉
+## Rotas
+
+Publicas:
+
+- `/`
+- `/login`
+- `/register`
+- `/forgot-password`
+- `/reset-password?token=...`
+
+Autenticadas (interface de dashboard):
+
+- `/dashboard`
+- `/dashboard/profile`
+
+## Estilizacao
+
+Tailwind v4 com configuracao central em `tailwind.config.ts`.
+
+Arquivos principais:
+
+- `src/app/globals.css`
+- `postcss.config.mjs`
+- `tailwind.config.ts`
+
+## Estado de autenticacao
+
+Gerenciado por `src/store/authStore.ts`.
+
+Responsabilidades principais:
+
+- persistir estado em memoria de sessao (`authUser`, `profile`, `accessToken`)
+- carregar perfil apos login/registro
+- validar sessao via refresh (`checkAuth`) no bootstrap da aplicacao
+- logout
+
+`AuthInitializer` (`src/app/providers/AuthInitializer.tsx`) executa `checkAuth()` ao montar o app.
+
+## Observacoes
+
+- Existem alertas/erros de lint de TypeScript em alguns arquivos (ex.: uso de `any`).
+- O projeto depende de um backend compativel com os endpoints listados acima.
+
+## Licenca
+
+Projeto privado para estudo/evolucao.

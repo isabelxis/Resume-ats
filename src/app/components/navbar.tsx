@@ -62,7 +62,7 @@ export default function Navbar() {
                             <span className="text-primary">{authUser?.email}</span>
                             <div className="h-4 w-px bg-gray-300" />
 
-                            <button onClick={handleLogout} className="hover:bg-hover text-primary transition">
+                            <button onClick={handleLogout} className="hover:text-hover text-primary transition">
                                 Sair
                             </button>
                         </div>
