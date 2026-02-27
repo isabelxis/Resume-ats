@@ -11,6 +11,7 @@ export default function Navbar() {
     const router = useRouter();
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isSectionsOpen, setIsSectionsOpen] = useState(true);
 
     const authUser = useAuthStore((s) => s.authUser);
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -109,9 +110,45 @@ export default function Navbar() {
                                 Meus curriculos
                             </Link>
 
-                            <Link href="/dashboard/profile" className="block text-primary hover:text-hover" onClick={closeMobileMenu}>
+                            <Link href="/sections/profile" className="block text-primary hover:text-hover" onClick={closeMobileMenu}>
                                 Perfil
                             </Link>
+                            <div>
+                                <button
+                                type="button"
+                                onClick={() => setIsSectionsOpen((prev) => !prev)}
+                                className="w-full flex items-center justify-between block text-primary"
+                                aria-expanded={isSectionsOpen}
+                                aria-controls="dashboard-sections-list"
+                                >
+                                Seções
+                                <span className="text-sm leading-none">{isSectionsOpen ? "-" : "+"}</span>
+                                </button>
+
+                                {isSectionsOpen && (
+                                <div id="dashboard-sections-list" className="space-y-3 mt-3">
+                                    <a href="/dashboard/sections/education" className="block text-primary hover:text-hover">
+                                    Formação
+                                    </a>
+
+                                    <a href="/dashboard/sections/experience" className="block text-primary hover:text-hover">
+                                    Experiências
+                                    </a>
+
+                                    <a href="/dashboard/sections/projects" className="block text-primary hover:text-hover">
+                                    Projetos
+                                    </a>
+
+                                    <a href="/dashboard/sections/skills" className="block text-primary hover:text-hover">
+                                    Habilidades
+                                    </a>
+
+                                    <a href="/dashboard/sections/languages" className="block text-primary hover:text-hover">
+                                    Idiomas
+                                    </a>
+                                </div>
+                                )}
+                            </div>
 
                             <button
                                 onClick={handleLogout}

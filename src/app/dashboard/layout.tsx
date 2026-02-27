@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/src/store/authStore";
 
@@ -11,6 +11,7 @@ interface Props {
 export default function DashboardLayout({ children }: Props) {
   const router = useRouter();
   const { logout } = useAuthStore();
+  const [isSectionsOpen, setIsSectionsOpen] = useState(true);
 
   async function handleLogout() {
     await logout();
@@ -32,6 +33,44 @@ export default function DashboardLayout({ children }: Props) {
           <a href="/dashboard/profile" className="block text-primary hover:text-hover">
             Perfil
           </a>
+
+          <div>
+            <button
+              type="button"
+              onClick={() => setIsSectionsOpen((prev) => !prev)}
+              className="w-full flex items-center justify-between block font-medium text-primary"
+              aria-expanded={isSectionsOpen}
+              aria-controls="dashboard-sections-list"
+            >
+              Seções
+              <span className="text-sm leading-none font-medium">{isSectionsOpen ? "-" : "+"}</span>
+            </button>
+
+            {isSectionsOpen && (
+              <div id="dashboard-sections-list" className="space-y-3 mt-3">
+                <a href="/dashboard/sections/education" className="block text-primary hover:text-hover">
+                  Formação
+                </a>
+
+                <a href="/dashboard/sections/experience" className="block text-primary hover:text-hover">
+                  Experiências
+                </a>
+
+                <a href="/dashboard/sections/projects" className="block text-primary hover:text-hover">
+                  Projetos
+                </a>
+
+                <a href="/dashboard/sections/skills" className="block text-primary hover:text-hover">
+                  Habilidades
+                </a>
+
+                <a href="/dashboard/sections/languages" className="block text-primary hover:text-hover">
+                  Idiomas
+                </a>
+              </div>
+            )}
+          </div>
+
           <button
             onClick={handleLogout}
             className="block text-primary hover:text-hover text-left w-full"
